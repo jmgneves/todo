@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { todoStore } from '../../todo.store';
+import { todoStore } from '../../core/store/todo.store';
 import { TodoStatusType } from '../../core/models/models';
 import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
 
 @Component({
   selector: 'app-todo-list-signal-store',
   standalone: true,
-  imports: [ButtonModule, FormsModule, CommonModule],
+  imports: [ButtonModule, SkeletonModule, FormsModule, CommonModule],
   providers: [todoStore],
   styleUrl: './todo-list-signal-store.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,6 +19,9 @@ import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
       <h1 class="text-2xl font-bold mb-4">
         Todo List
         <span class="text-sm italic"> - signal store</span>
+        <span class="text-sm italic">
+          ({{ todoStore.filteredTodosCount() }})</span
+        >
       </h1>
 
       <!-- Filter Controls -->
@@ -55,7 +59,29 @@ import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
         </div>
       </div>
 
-      <!-- Todo List -->
+      <!-- Todo List Loading -->
+      @if(todoStore.isTodosLoading()) {
+      <div class="shadow rounded p-4 bg-gray-100 dark:bg-gray-900">
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton styleClass="mb-2" />
+        <p-skeleton styleClass="mb-2" />
+      </div>
+
+      }
+
+      <!-- Todo List No Results -->
+      @if(!todoStore.isTodosLoading() && todoStore.filteredTodos().length === 0)
+      {
+      <div
+        class="flex justify-center items-center h-24 bg-gray-100 dark:bg-gray-900 rounded-lg"
+      >
+        <div class="text-xl">No todos.</div>
+      </div>
+      }
+
+      <!-- Todo List  Results -->
+      @if(!todoStore.isTodosLoading() && todoStore.filteredTodos().length > 0) {
+
       <ul class="shadow rounded p-4 bg-gray-100 dark:bg-gray-900">
         @for(todo of filteredTodos(); track todo.id) {
         <li
@@ -82,10 +108,9 @@ import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
             ></p-button>
           </div>
         </li>
-        } @if(!filteredTodos() || filteredTodos().length === 0) {
-        <li class="text-center text-red-500 uppercase">No todos found.</li>
         }
       </ul>
+      }
     </div>
   `,
 })

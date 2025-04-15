@@ -1,17 +1,18 @@
 import { Signal } from '@angular/core';
 
 export interface Todo {
-  userId: number; // ID of the user who owns the todo
-  id: number; // Unique ID of the todo
-  title: string; // Title or description of the todo
-  completed: boolean; // Status of the todo (true if completed, false otherwise)
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
 }
-export type TodoStatusType = 'ALL' | 'COMPLETED' | 'NOT_COMPLETED'; // Type for filter status
+export type TodoStatusType = 'ALL' | 'COMPLETED' | 'NOT_COMPLETED';
 
 export interface TodoState {
-  todos: Todo[]; // List of todos
-  filterStatus: TodoStatusType; // Current filter status
-  filterText: string; // Text to filter todos by title
+  todos: Todo[];
+  isTodosLoading: boolean;
+  filterStatus: TodoStatusType;
+  filterText: string;
   createdTodo: Todo | null;
   updatedTodo: Todo | null;
   deletedTodo: Todo | null;

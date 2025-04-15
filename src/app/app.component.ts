@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent],
   styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <router-outlet /> `,
+  template: `<app-navbar />
+    <div class="p-4"><router-outlet /></div>`,
 })
 export class AppComponent {
   title = 'ava todo';

@@ -1,5 +1,5 @@
 import { computed, inject } from '@angular/core';
-import { TodoService } from './core/services/todo.service';
+import { TodoService } from '../services/todo.service';
 import {
   signalStore,
   withState,
@@ -8,10 +8,11 @@ import {
   patchState,
   withComputed,
 } from '@ngrx/signals';
-import { Todo, TodoState, TodoStatusType } from './core/models/models';
+import { Todo, TodoState, TodoStatusType } from '../models/models';
 
 const initialState: TodoState = {
   todos: [],
+  isTodosLoading: false,
   filterStatus: 'ALL',
   filterText: '',
   createdTodo: null,
@@ -19,25 +20,40 @@ const initialState: TodoState = {
   deletedTodo: null,
 };
 
+const filterTodos = (
+  todos: Todo[],
+  filterStatus: TodoStatusType,
+  filterText: string
+): Todo[] => {
+  return todos.filter((todo) => {
+    const matchesStatus =
+      filterStatus === 'ALL' ||
+      (filterStatus === 'COMPLETED' && todo.completed) ||
+      (filterStatus === 'NOT_COMPLETED' && !todo.completed);
+    const matchesText = todo.title
+      .toLowerCase()
+      .includes(filterText.toLowerCase());
+    return matchesStatus && matchesText;
+  });
+};
+
 export const todoStore = signalStore(
   withState<TodoState>(initialState),
   withComputed((store) => ({
-    filteredTodosCount: computed(() => store.todos().length),
     filteredTodos: computed(() => {
       const filterStatus = store.filterStatus();
       const filterText = store.filterText().toLowerCase();
-      return store.todos().filter((todo) => {
-        const matchesStatus =
-          filterStatus === 'ALL' ||
-          (filterStatus === 'COMPLETED' && todo.completed) ||
-          (filterStatus === 'NOT_COMPLETED' && !todo.completed);
-        const matchesText = todo.title.toLowerCase().includes(filterText);
-        return matchesStatus && matchesText;
-      });
+      return filterTodos(store.todos(), filterStatus, filterText);
+    }),
+    filteredTodosCount: computed(() => {
+      const filterStatus = store.filterStatus();
+      const filterText = store.filterText().toLowerCase();
+      return filterTodos(store.todos(), filterStatus, filterText).length;
     }),
   })),
   withMethods((store, todoService = inject(TodoService)) => ({
     loadTodos: (): void => {
+      patchState(store, { isTodosLoading: true });
       todoService.getTodos().subscribe((todos: Todo[]) => {
         patchState(store, (currentState: TodoState) => ({
           ...currentState,
@@ -45,6 +61,7 @@ export const todoStore = signalStore(
           filteredTodos: todos,
           filterStatus: 'ALL' as 'ALL',
           filterText: '',
+          isTodosLoading: false,
         }));
       });
     },
