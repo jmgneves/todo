@@ -9,10 +9,10 @@ import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
 import { TodoStateService } from '../../core/services/todo-state.service';
 
 @Component({
-  selector: 'app-todo-list-signal-app-service',
+  selector: 'app-todo-list-signal-state-service',
   standalone: true,
   imports: [ButtonModule, SkeletonModule, FormsModule, CommonModule],
-  styleUrl: './todo-list-signal-app-service.component.css',
+  styleUrl: './todo-list-signal-state-service.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-4 min-h-screen mx-auto w-2/3">
@@ -116,7 +116,7 @@ import { TodoStateService } from '../../core/services/todo-state.service';
     </div>
   `,
 })
-export class TodoListSignalAppServiceComponent {
+export class TodoListSignalStateServiceComponent {
   todoStateService = inject(TodoStateService);
   filterOptions = TODO_FILTER_OPTIONS;
   selectedFilter = 'ALL';
