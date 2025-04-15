@@ -5,6 +5,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,12 +14,13 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
-      theme: {
-        preset: Aura,
-        options: {
-          '--font-family': '"Montserrat", sans-serif',
+        theme: {
+            preset: Aura,
+            options: {
+                '--font-family': '"Montserrat", sans-serif',
+            },
         },
-      },
     }),
-  ],
+    provideStore()
+],
 };
