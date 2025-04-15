@@ -28,8 +28,8 @@ export class NavbarComponent {
       route: '/signal-store',
     },
     {
-      label: 'signals app service',
-      route: '/signals-app-service',
+      label: 'signals state service',
+      route: '/signals-state-service',
     },
     {
       label: 'basic signals',

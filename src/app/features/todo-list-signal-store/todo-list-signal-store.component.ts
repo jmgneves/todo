@@ -3,9 +3,9 @@ import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { todoStore } from '../../core/store/todo.store';
 import { TodoStatusType } from '../../core/models/models';
 import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
+import { todoStore } from '../../core/store/todo.store';
 
 @Component({
   selector: 'app-todo-list-signal-store',
@@ -110,6 +110,7 @@ import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
         </li>
         }
       </ul>
+
       }
     </div>
   `,

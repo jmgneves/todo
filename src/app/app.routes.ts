@@ -8,7 +8,10 @@ import { TodoListBasicAppServiceComponent } from './features/todo-list-basic-app
 export const routes: Routes = [
   { path: '', redirectTo: 'signal-store', pathMatch: 'full' },
   { path: 'signal-store', component: TodoListSignalStoreComponent },
-  { path: 'signals-app-service', component: TodoListSignalAppServiceComponent },
+  {
+    path: 'signals-state-service',
+    component: TodoListSignalAppServiceComponent,
+  },
   { path: 'basic-signals', component: TodoListBasicSignalsComponent },
   { path: 'basic-app-service', component: TodoListBasicAppServiceComponent },
 ];
