@@ -1,9 +1,8 @@
-import { Component, computed, inject } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
 import { TabsModule } from 'primeng/tabs';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, Observable, startWith } from 'rxjs';
+import { RouterService } from '../../core/services/router.service';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -22,7 +21,7 @@ import { filter, Observable, startWith } from 'rxjs';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  readonly router = inject(Router);
+  readonly routerService = inject(RouterService);
   items = [
     {
       label: 'signal store',
@@ -42,27 +41,11 @@ export class NavbarComponent {
     },
   ];
 
-  // Reactive signal for router URL (only emits on NavigationEnd)
-  currentUrl = toSignal(
-    this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      // Emit first value immediately in case of full-page reload
-      // Fallback to router.url
-      startWith({ urlAfterRedirects: this.router.url } as NavigationEnd)
-    ),
-    { initialValue: { urlAfterRedirects: this.router.url } as NavigationEnd }
-  );
-
-  // Compute the active tab reactively based on the URL
-  readonly activeTab = computed(() => {
-    const url = this.currentUrl().urlAfterRedirects;
-    const match = this.items.find((item) => url.startsWith(item.route));
-    return match?.route ?? this.items[0].route;
-  });
+  readonly activeTab = this.routerService.activeRoute(this.items);
 
   onTabChange(route: string | number): void {
     if (typeof route === 'string') {
-      this.router.navigateByUrl(route);
+      this.routerService.navigateTo(route);
     }
   }
 }
