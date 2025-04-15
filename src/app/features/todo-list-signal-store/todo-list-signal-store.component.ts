@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { todoStore } from '../../todo.store';
 import { TodoStatusType } from '../../core/models/models';
+import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
 
 @Component({
   selector: 'app-todo-list-signal-store',
@@ -55,7 +56,7 @@ import { TodoStatusType } from '../../core/models/models';
       </div>
 
       <!-- Todo List -->
-      <ul class="shadow rounded p-4 bg-gray-900">
+      <ul class="shadow rounded p-4 bg-gray-100 dark:bg-gray-900">
         @for(todo of filteredTodos(); track todo.id) {
         <li
           class="flex justify-between items-center p-2 border-b last:border-none w-full"
@@ -81,6 +82,8 @@ import { TodoStatusType } from '../../core/models/models';
             ></p-button>
           </div>
         </li>
+        } @if(!filteredTodos() || filteredTodos().length === 0) {
+        <li class="text-center text-red-500 uppercase">No todos found.</li>
         }
       </ul>
     </div>
@@ -88,12 +91,7 @@ import { TodoStatusType } from '../../core/models/models';
 })
 export class TodoListSignalStoreComponent {
   todoStore = inject(todoStore);
-  title = 'ava todo';
-  filterOptions = [
-    { label: 'All', value: 'ALL' },
-    { label: 'Completed', value: 'COMPLETED' },
-    { label: 'Not Completed', value: 'NOT_COMPLETED' },
-  ];
+  filterOptions = TODO_FILTER_OPTIONS;
   selectedFilter = 'ALL';
 
   filteredTodos = this.todoStore.filteredTodos;
