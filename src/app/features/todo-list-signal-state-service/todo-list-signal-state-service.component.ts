@@ -5,7 +5,6 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TodoStatusType } from '../../core/models/models';
-import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
 import { TodoSignalStateService } from '../../core/services/todo-signal-state.service';
 
 @Component({
@@ -117,7 +116,6 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
 })
 export class TodoListSignalStateServiceComponent {
   todoStateService = inject(TodoSignalStateService);
-  filterOptions = TODO_FILTER_OPTIONS;
   selectedFilter = 'ALL';
 
   filteredTodos = this.todoStateService.filteredTodos();

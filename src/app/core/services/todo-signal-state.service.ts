@@ -44,18 +44,6 @@ export class TodoSignalStateService {
     });
   }
 
-  //   addTodo(newTodo: Todo): void {
-  //     this.todos.update((currentTodos) => [...currentTodos, newTodo]);
-  //   }
-
-  //   updateTodo(updatedTodo: Todo): void {
-  //     this.todoService.updateTodo(updatedTodo.id, updatedTodo).subscribe((todo) => {
-  //       this.todos.update((currentTodos) =>
-  //         currentTodos.map((t) => (t.id === todo.id ? todo : t))
-  //       );
-  //     });
-  //   }
-
   deleteTodo(todoId: number): void {
     this.todoService.deleteTodo(todoId).subscribe(() => {
       this.todos.update((currentTodos) =>

@@ -59,23 +59,6 @@ export class TodoBehaviorSubjectStateService {
     });
   }
 
-  addTodo(newTodo: Todo): void {
-    const currentTodos = this.todosSubject.getValue();
-    this.todosSubject.next([...currentTodos, newTodo]);
-  }
-
-  updateTodo(updatedTodo: Todo): void {
-    this.todoService
-      .updateTodo(updatedTodo.id, updatedTodo)
-      .subscribe((todo) => {
-        const currentTodos = this.todosSubject.getValue();
-        const updatedTodos = currentTodos.map((t) =>
-          t.id === todo.id ? todo : t
-        );
-        this.todosSubject.next(updatedTodos);
-      });
-  }
-
   deleteTodo(todoId: number): void {
     this.todoService.deleteTodo(todoId).subscribe(() => {
       const currentTodos = this.todosSubject.getValue();

@@ -65,24 +65,6 @@ export const todoStore = signalStore(
         }));
       });
     },
-    addTodo: (todos: Todo[]): void => {
-      patchState(store, (currentState: TodoState) => ({
-        ...currentState,
-        todos: todos,
-        filteredTodos: todos,
-      }));
-    },
-    // updateTodo: (updatedTodo: Todo) => {
-    //   todoService
-    //     .updateTodo(updatedTodo.id, updatedTodo)
-    //     .subscribe((todo: Todo) => {
-    //       patchState(store, (currentState: TodoState) => ({
-    //         ...currentState,
-    //         todos: currentState.todos.map((t) => (t.id === todo.id ? todo : t)),
-    //         updatedTodo: todo,
-    //       }));
-    //     });
-    // },
     deleteTodo: (todoId: number) => {
       todoService.deleteTodo(todoId).subscribe(() => {
         patchState(store, (currentState: TodoState) => ({
