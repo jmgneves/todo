@@ -36,8 +36,8 @@ export class NavbarComponent {
       route: '/basic-signals',
     },
     {
-      label: 'basic app service',
-      route: '/basic-app-service',
+      label: 'behavior subject state service',
+      route: '/behavior-subject-state-service',
     },
   ];
 
