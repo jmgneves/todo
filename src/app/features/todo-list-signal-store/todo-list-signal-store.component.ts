@@ -14,7 +14,7 @@ import { todoStore } from '../../core/store/todo.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-4 min-h-screen mx-auto w-2/3">
-      <h1 class="text-2xl font-bold mb-4">
+      <h1 class="text-2xl font-bold mb-4 uppercase">
         Todo List
         <span class="text-sm italic"> - signal store</span>
         <span class="text-sm italic">
