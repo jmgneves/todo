@@ -2,8 +2,8 @@
   <h1 class="text-2xl font-bold mb-4 uppercase">
     Todo List
     <span class="text-sm italic"> - behavior subject state service</span>
-    <span class="text-sm italic">
-      ({{ (filteredTodosCount$ | async) ?? 0 }})</span
+    <span class="text-sm italic"
+      >({{ (filteredTodosCount$ | async) ?? 0 }})</span
     >
   </h1>
 
@@ -12,17 +12,17 @@
     <p-button
       [label]="'All'"
       [outlined]="(filterStatus$ | async) !== 'ALL'"
-      (onClick)="onFilterButtonClick('ALL')"
+      (onClick)="todoState.setFilterStatus('ALL')"
     ></p-button>
     <p-button
       [label]="'Completed'"
       [outlined]="(filterStatus$ | async) !== 'COMPLETED'"
-      (onClick)="onFilterButtonClick('COMPLETED')"
+      (onClick)="todoState.setFilterStatus('COMPLETED')"
     ></p-button>
     <p-button
       [label]="'Not Completed'"
       [outlined]="(filterStatus$ | async) !== 'NOT_COMPLETED'"
-      (onClick)="onFilterButtonClick('NOT_COMPLETED')"
+      (onClick)="todoState.setFilterStatus('NOT_COMPLETED')"
       class="whitespace-nowrap"
     />
     <div class="flex items-center w-full">
@@ -31,12 +31,12 @@
         placeholder="Search by title"
         class="p-2 border rounded w-full"
         [ngModel]="(filterText$ | async) ?? ''"
-        (ngModelChange)="onSearchChange($event)"
+        (ngModelChange)="todoState.setFilterText($event)"
       />
       <p-button
         icon="pi pi-filter-slash"
         class="ml-2"
-        (onClick)="clearFilterText()"
+        (onClick)="todoState.setFilterText('')"
         [disabled]="!(filterText$ | async)"
       ></p-button>
     </div>
@@ -85,7 +85,7 @@
               icon="pi pi-trash"
               class="p-button-sm rounded-full"
               severity="danger"
-              (onClick)="onDeleteTodo(todo.id)"
+              (onClick)="todoState.deleteTodo(todo.id)"
             ></p-button>
           </div>
         </li>

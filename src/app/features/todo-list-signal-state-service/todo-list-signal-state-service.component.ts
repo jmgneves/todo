@@ -18,7 +18,7 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
         Todo List
         <span class="text-sm italic"> - signal state service</span>
         <span class="text-sm italic">
-          ({{ todoStateService.filteredTodosCount() }})</span
+          ({{ todoState.filteredTodosCount() }})</span
         >
       </h1>
 
@@ -26,18 +26,18 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
       <div class="flex items-center gap-4 mb-4 ">
         <p-button
           [label]="'All'"
-          [outlined]="todoStateService.filterStatus() !== 'ALL'"
-          (onClick)="onFilterButtonClick('ALL')"
+          [outlined]="todoState.filterStatus() !== 'ALL'"
+          (onClick)="todoState.setFilterStatus('ALL')"
         ></p-button>
         <p-button
           [label]="'Completed'"
-          [outlined]="todoStateService.filterStatus() !== 'COMPLETED'"
-          (onClick)="onFilterButtonClick('COMPLETED')"
+          [outlined]="todoState.filterStatus() !== 'COMPLETED'"
+          (onClick)="todoState.setFilterStatus('COMPLETED')"
         ></p-button>
         <p-button
           [label]="'Not Completed'"
-          [outlined]="todoStateService.filterStatus() !== 'NOT_COMPLETED'"
-          (onClick)="onFilterButtonClick('NOT_COMPLETED')"
+          [outlined]="todoState.filterStatus() !== 'NOT_COMPLETED'"
+          (onClick)="todoState.setFilterStatus('NOT_COMPLETED')"
           class="whitespace-nowrap"
         />
         <div class="flex items-center w-full">
@@ -45,20 +45,20 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
             type="text"
             placeholder="Search by title"
             class="p-2 border rounded w-full"
-            [ngModel]="todoStateService.filterText()"
-            (ngModelChange)="onSearchChange($event)"
+            [ngModel]="todoState.filterText()"
+            (ngModelChange)="todoState.setFilterText($event)"
           />
           <p-button
             icon="pi pi-filter-slash"
             class="ml-2"
-            (onClick)="clearFilterText()"
-            [disabled]="!todoStateService.filterText()"
+            (onClick)="todoState.setFilterText('')"
+            [disabled]="!todoState.filterText()"
           ></p-button>
         </div>
       </div>
 
       <!-- Todo List Loading -->
-      @if(todoStateService.isTodosLoading()) {
+      @if(todoState.isTodosLoading()) {
       <div class="shadow rounded p-4 bg-gray-100 dark:bg-gray-900">
         <p-skeleton styleClass="mb-2" />
         <p-skeleton styleClass="mb-2" />
@@ -68,8 +68,8 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
       }
 
       <!-- Todo List No Results -->
-      @if(!todoStateService.isTodosLoading() &&
-      todoStateService.filteredTodos().length === 0) {
+      @if(!todoState.isTodosLoading() && todoState.filteredTodos().length === 0)
+      {
       <div
         class="flex justify-center items-center h-24 bg-gray-100 dark:bg-gray-900 rounded-lg"
       >
@@ -78,11 +78,10 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
       }
 
       <!-- Todo List  Results -->
-      @if(!todoStateService.isTodosLoading() &&
-      todoStateService.filteredTodos().length > 0) {
+      @if(!todoState.isTodosLoading() && todoState.filteredTodos().length > 0) {
 
       <ul class="shadow rounded p-4 bg-gray-100 dark:bg-gray-900">
-        @for(todo of todoStateService.filteredTodos(); track todo.id) {
+        @for(todo of todoState.filteredTodos(); track todo.id) {
         <li
           class="flex justify-between items-center p-2 border-b last:border-none w-full"
         >
@@ -103,7 +102,7 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
               icon="pi pi-trash"
               class="p-button-sm rounded-full"
               severity="danger"
-              (onClick)="onDeleteTodo(todo.id)"
+              (onClick)="todoState.deleteTodo(todo.id)"
             ></p-button>
           </div>
         </li>
@@ -115,22 +114,5 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
   `,
 })
 export class TodoListSignalStateServiceComponent {
-  todoStateService = inject(TodoSignalStateService);
-  selectedFilter = 'ALL';
-
-  filteredTodos = this.todoStateService.filteredTodos();
-
-  onFilterButtonClick(value: string): void {
-    this.todoStateService.setFilterStatus(value as TodoStatusType);
-  }
-
-  onSearchChange(val: string): void {
-    this.todoStateService.setFilterText(val);
-  }
-  onDeleteTodo(todoId: number): void {
-    this.todoStateService.deleteTodo(todoId);
-  }
-  clearFilterText(): void {
-    this.todoStateService.setFilterText('');
-  }
+  todoState = inject(TodoSignalStateService);
 }

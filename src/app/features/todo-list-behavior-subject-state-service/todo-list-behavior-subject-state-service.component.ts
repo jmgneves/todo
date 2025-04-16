@@ -15,31 +15,15 @@ import { TodoBehaviorSubjectStateService } from '../../core/services/todo-behavi
   templateUrl: './todo-list-behavior-subject-state-service.component.html',
 })
 export class TodoListBehaviorSubjectStateServiceComponent {
-  todoStateService = inject(TodoBehaviorSubjectStateService);
+  todoState = inject(TodoBehaviorSubjectStateService);
 
   // Observables from the service
-  todos$ = this.todoStateService.todos$;
-  isTodosLoading$ = this.todoStateService.isTodosLoading$;
-  filterStatus$ = this.todoStateService.filterStatus$;
-  filterText$ = this.todoStateService.filterText$;
-  filteredTodos$ = this.todoStateService.filteredTodos$;
-  filteredTodosCount$ = this.todoStateService.filteredTodosCount$;
-
-  onFilterButtonClick(value: string): void {
-    this.todoStateService.setFilterStatus(value as TodoStatusType);
-  }
-
-  onSearchChange(val: string): void {
-    this.todoStateService.setFilterText(val);
-  }
-
-  onDeleteTodo(todoId: number): void {
-    this.todoStateService.deleteTodo(todoId);
-  }
-
-  clearFilterText(): void {
-    this.todoStateService.setFilterText('');
-  }
+  todos$ = this.todoState.todos$;
+  isTodosLoading$ = this.todoState.isTodosLoading$;
+  filterStatus$ = this.todoState.filterStatus$;
+  filterText$ = this.todoState.filterText$;
+  filteredTodos$ = this.todoState.filteredTodos$;
+  filteredTodosCount$ = this.todoState.filteredTodosCount$;
 
   trackById(index: number, todo: any): number {
     return todo.id;

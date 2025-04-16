@@ -3,7 +3,6 @@ import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TodoStatusType } from '../../core/models/models';
 import { todoStore } from '../../core/store/todo.store';
 
 @Component({
@@ -27,17 +26,17 @@ import { todoStore } from '../../core/store/todo.store';
         <p-button
           [label]="'All'"
           [outlined]="todoStore.filterStatus() !== 'ALL'"
-          (onClick)="onFilterButtonClick('ALL')"
+          (onClick)="todoStore.setFilterStatus('ALL')"
         ></p-button>
         <p-button
           [label]="'Completed'"
           [outlined]="todoStore.filterStatus() !== 'COMPLETED'"
-          (onClick)="onFilterButtonClick('COMPLETED')"
+          (onClick)="todoStore.setFilterStatus('COMPLETED')"
         ></p-button>
         <p-button
           [label]="'Not Completed'"
           [outlined]="todoStore.filterStatus() !== 'NOT_COMPLETED'"
-          (onClick)="onFilterButtonClick('NOT_COMPLETED')"
+          (onClick)="todoStore.setFilterStatus('NOT_COMPLETED')"
           class="whitespace-nowrap"
         />
         <div class="flex items-center w-full">
@@ -46,12 +45,12 @@ import { todoStore } from '../../core/store/todo.store';
             placeholder="Search by title"
             class="p-2 border rounded w-full"
             [ngModel]="todoStore.filterText()"
-            (ngModelChange)="onSearchChange($event)"
+            (ngModelChange)="todoStore.setFilterText($event)"
           />
           <p-button
             icon="pi pi-filter-slash"
             class="ml-2"
-            (onClick)="clearFilterText()"
+            (onClick)="todoStore.setFilterText('')"
             [disabled]="!todoStore.filterText()"
           ></p-button>
         </div>
@@ -81,7 +80,7 @@ import { todoStore } from '../../core/store/todo.store';
       @if(!todoStore.isTodosLoading() && todoStore.filteredTodos().length > 0) {
 
       <ul class="shadow rounded p-4 bg-gray-100 dark:bg-gray-900">
-        @for(todo of filteredTodos(); track todo.id) {
+        @for(todo of todoStore.filteredTodos(); track todo.id) {
         <li
           class="flex justify-between items-center p-2 border-b last:border-none w-full"
         >
@@ -102,34 +101,16 @@ import { todoStore } from '../../core/store/todo.store';
               icon="pi pi-trash"
               class="p-button-sm rounded-full"
               severity="danger"
-              (onClick)="onDeleteTodo(todo.id)"
+              (onClick)="todoStore.deleteTodo(todo.id)"
             ></p-button>
           </div>
         </li>
         }
       </ul>
-
       }
     </div>
   `,
 })
 export class TodoListSignalStoreComponent {
   todoStore = inject(todoStore);
-  selectedFilter = 'ALL';
-
-  filteredTodos = this.todoStore.filteredTodos;
-
-  onFilterButtonClick(value: string): void {
-    this.todoStore.setFilterStatus(value as TodoStatusType);
-  }
-
-  onSearchChange(val: string): void {
-    this.todoStore.setFilterText(val);
-  }
-  onDeleteTodo(todoId: number): void {
-    this.todoStore.deleteTodo(todoId);
-  }
-  clearFilterText(): void {
-    this.todoStore.setFilterText('');
-  }
 }

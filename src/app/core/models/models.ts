@@ -13,8 +13,6 @@ export interface TodoState {
   isTodosLoading: boolean;
   filterStatus: TodoStatusType;
   filterText: string;
-  createdTodo: Todo | null;
-  updatedTodo: Todo | null;
   deletedTodo: Todo | null;
 }
 

@@ -120,13 +120,13 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class TodoListBasicSignalsComponent implements OnInit, OnDestroy {
   private todoService = inject(TodoService);
+  private destroy$ = new Subject<void>();
 
   // State
   todos = signal<Todo[]>([]);
   isTodosLoading = signal(false);
   filterStatus = signal<TodoStatusType>('ALL');
   filterText = signal('');
-  private destroy$ = new Subject<void>();
 
   // Computed properties
   filteredTodos = computed(() => {
@@ -141,7 +141,6 @@ export class TodoListBasicSignalsComponent implements OnInit, OnDestroy {
       return matchesStatus && matchesText;
     });
   });
-
   filteredTodosCount = computed(() => this.filteredTodos().length);
 
   // Methods

@@ -117,6 +117,7 @@ import { Subject, takeUntil } from 'rxjs';
 export class TodoListBasicComponent implements OnInit, OnDestroy {
   private todoService = inject(TodoService);
   private cdr = inject(ChangeDetectorRef);
+  private destroy$ = new Subject<void>();
 
   // State
   todos: Todo[] = [];
@@ -127,7 +128,6 @@ export class TodoListBasicComponent implements OnInit, OnDestroy {
   // Derived state
   filteredTodos: Todo[] = [];
   filteredTodosCount = 0;
-  private destroy$ = new Subject<void>();
 
   // Methods
   loadTodos(): void {

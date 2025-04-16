@@ -16,8 +16,6 @@ const initialState: TodoState = {
   isTodosLoading: false,
   filterStatus: 'ALL',
   filterText: '',
-  createdTodo: null,
-  updatedTodo: null,
   deletedTodo: null,
 };
 
