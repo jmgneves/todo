@@ -65,7 +65,6 @@ export const todoStore = signalStore(
           .getTodos()
           .pipe(takeUntil(destroy$))
           .subscribe((todos: Todo[]) => {
-            debugger;
             patchState(store, (currentState: TodoState) => ({
               ...currentState,
               todos: todos,
