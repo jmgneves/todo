@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TodoStatusType } from '../../core/models/models';
 import { TODO_FILTER_OPTIONS } from '../../core/constants/todo-filter-options';
-import { TodoStateService } from '../../core/services/todo-state.service';
+import { TodoSignalStateService } from '../../core/services/todo-signal-state.service';
 
 @Component({
   selector: 'app-todo-list-signal-state-service',
@@ -117,7 +117,7 @@ import { TodoStateService } from '../../core/services/todo-state.service';
   `,
 })
 export class TodoListSignalStateServiceComponent {
-  todoStateService = inject(TodoStateService);
+  todoStateService = inject(TodoSignalStateService);
   filterOptions = TODO_FILTER_OPTIONS;
   selectedFilter = 'ALL';
 

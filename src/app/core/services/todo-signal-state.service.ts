@@ -1,11 +1,11 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { TodoService } from '../services/todo.service';
+import { TodoService } from './todo.service';
 import { Todo, TodoState, TodoStatusType } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TodoStateService {
+export class TodoSignalStateService {
   private todoService = inject(TodoService);
 
   // Initial state
