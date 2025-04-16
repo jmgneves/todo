@@ -16,7 +16,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-todo-list-basic-signals',
   standalone: true,
   imports: [ButtonModule, SkeletonModule, FormsModule, CommonModule],
-  styleUrl: './todo-list-basic-signals.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-4 min-h-screen mx-auto w-2/3">

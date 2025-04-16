@@ -12,7 +12,6 @@ import { TodoSignalStateService } from '../../core/services/todo-signal-state.se
   selector: 'app-todo-list-signal-state-service',
   standalone: true,
   imports: [ButtonModule, SkeletonModule, FormsModule, CommonModule],
-  styleUrl: './todo-list-signal-state-service.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-4 min-h-screen mx-auto w-2/3">

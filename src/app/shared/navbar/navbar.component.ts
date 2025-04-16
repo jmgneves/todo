@@ -18,7 +18,6 @@ import { RouterModule } from '@angular/router';
       </p-tablist>
     </p-tabs>
   `,
-  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   readonly routerService = inject(RouterService);

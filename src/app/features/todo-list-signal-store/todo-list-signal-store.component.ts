@@ -12,7 +12,6 @@ import { todoStore } from '../../core/store/todo.store';
   standalone: true,
   imports: [ButtonModule, SkeletonModule, FormsModule, CommonModule],
   providers: [todoStore],
-  styleUrl: './todo-list-signal-store.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-4 min-h-screen mx-auto w-2/3">

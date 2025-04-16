@@ -6,7 +6,6 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent],
-  styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<app-navbar />
     <div class="p-4"><router-outlet /></div>`,

@@ -11,7 +11,6 @@ import { TodoBehaviorSubjectStateService } from '../../core/services/todo-behavi
   selector: 'app-todo-list-behavior-subject-state-service',
   standalone: true,
   imports: [ButtonModule, SkeletonModule, FormsModule, CommonModule],
-  styleUrl: './todo-list-behavior-subject-state-service.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './todo-list-behavior-subject-state-service.component.html',
 })
