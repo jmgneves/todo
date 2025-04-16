@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, effect, inject } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { Todo, TodoState, TodoStatusType } from '../models/models';
 
