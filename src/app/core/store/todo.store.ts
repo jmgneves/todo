@@ -9,6 +9,7 @@ import {
   withComputed,
 } from '@ngrx/signals';
 import { Todo, TodoState, TodoStatusType } from '../models/models';
+import { Subject, takeUntil } from 'rxjs';
 
 const initialState: TodoState = {
   todos: [],
@@ -51,46 +52,66 @@ export const todoStore = signalStore(
       return filterTodos(store.todos(), filterStatus, filterText).length;
     }),
   })),
-  withMethods((store, todoService = inject(TodoService)) => ({
-    loadTodos: (): void => {
-      patchState(store, { isTodosLoading: true });
-      todoService.getTodos().subscribe((todos: Todo[]) => {
+  withMethods(
+    (
+      store,
+      todoService = inject(TodoService),
+      destroy$ = new Subject<void>()
+    ) => ({
+      destroySubject: () => destroy$,
+      loadTodos: (): void => {
+        patchState(store, { isTodosLoading: true });
+        todoService
+          .getTodos()
+          .pipe(takeUntil(destroy$))
+          .subscribe((todos: Todo[]) => {
+            debugger;
+            patchState(store, (currentState: TodoState) => ({
+              ...currentState,
+              todos: todos,
+              filteredTodos: todos,
+              filterStatus: 'ALL' as 'ALL',
+              filterText: '',
+              isTodosLoading: false,
+            }));
+          });
+      },
+      deleteTodo: (todoId: number) => {
+        todoService
+          .deleteTodo(todoId)
+          .pipe(takeUntil(destroy$))
+          .subscribe(() => {
+            patchState(store, (currentState: TodoState) => ({
+              ...currentState,
+              todos: currentState.todos.filter(
+                (todo: Todo) => todo.id !== todoId
+              ),
+              deletedTodo:
+                currentState.todos.find((todo) => todo.id === todoId) || null,
+            }));
+          });
+      },
+      setFilterStatus(newValue: TodoStatusType) {
         patchState(store, (currentState: TodoState) => ({
           ...currentState,
-          todos: todos,
-          filteredTodos: todos,
-          filterStatus: 'ALL' as 'ALL',
-          filterText: '',
-          isTodosLoading: false,
+          filterStatus: newValue,
         }));
-      });
-    },
-    deleteTodo: (todoId: number) => {
-      todoService.deleteTodo(todoId).subscribe(() => {
+      },
+      setFilterText(newValue: string) {
         patchState(store, (currentState: TodoState) => ({
           ...currentState,
-          todos: currentState.todos.filter((todo: Todo) => todo.id !== todoId),
-          deletedTodo:
-            currentState.todos.find((todo) => todo.id === todoId) || null,
+          filterText: newValue,
         }));
-      });
-    },
-    setFilterStatus(newValue: TodoStatusType) {
-      patchState(store, (currentState: TodoState) => ({
-        ...currentState,
-        filterStatus: newValue,
-      }));
-    },
-    setFilterText(newValue: string) {
-      patchState(store, (currentState: TodoState) => ({
-        ...currentState,
-        filterText: newValue,
-      }));
-    },
-  })),
+      },
+    })
+  ),
   withHooks({
     onInit(store) {
       store.loadTodos();
+    },
+    onDestroy(store) {
+      store.destroySubject().next();
+      store.destroySubject().complete();
     },
   })
 );

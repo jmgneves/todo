@@ -5,6 +5,7 @@ import { TodoListSignalStoreComponent } from './features/todo-list-signal-store/
 import { TodoListBasicSignalsComponent } from './features/todo-list-basic-signals/todo-list-basic-signals.component';
 import { TodoListBehaviorSubjectStateServiceComponent } from './features/todo-list-behavior-subject-state-service/todo-list-behavior-subject-state-service.component';
 import { TodoListSignalStateServiceComponent } from './features/todo-list-signal-state-service/todo-list-signal-state-service.component';
+import { TodoListBasicComponent } from './features/todo-list-basic/todo-list-basic.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'signal-store', pathMatch: 'full' },
@@ -17,5 +18,9 @@ export const routes: Routes = [
   {
     path: 'behavior-subject-state-service',
     component: TodoListBehaviorSubjectStateServiceComponent,
+  },
+  {
+    path: 'basic',
+    component: TodoListBasicComponent,
   },
 ];

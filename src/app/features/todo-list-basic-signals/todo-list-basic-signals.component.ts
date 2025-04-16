@@ -4,6 +4,8 @@ import {
   computed,
   inject,
   ChangeDetectionStrategy,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { TodoService } from '../../core/services/todo.service';
 import { Todo, TodoStatusType } from '../../core/models/models';
@@ -11,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-todo-list-basic-signals',
@@ -115,7 +118,7 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
 })
-export class TodoListBasicSignalsComponent {
+export class TodoListBasicSignalsComponent implements OnInit, OnDestroy {
   private todoService = inject(TodoService);
 
   // State
@@ -123,6 +126,7 @@ export class TodoListBasicSignalsComponent {
   isTodosLoading = signal(false);
   filterStatus = signal<TodoStatusType>('ALL');
   filterText = signal('');
+  private destroy$ = new Subject<void>();
 
   // Computed properties
   filteredTodos = computed(() => {
@@ -140,24 +144,33 @@ export class TodoListBasicSignalsComponent {
 
   filteredTodosCount = computed(() => this.filteredTodos().length);
 
-  ngOnInit(): void {
-    this.loadTodos();
-  }
-
   // Methods
   loadTodos(): void {
     this.isTodosLoading.set(true);
-    this.todoService.getTodos().subscribe((todos: Todo[]) => {
-      this.todos.set(todos);
-      this.isTodosLoading.set(false);
-    });
+    this.todoService
+      .getTodos()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((todos: Todo[]) => {
+        this.todos.set(todos);
+        this.isTodosLoading.set(false);
+      });
   }
 
   deleteTodo(todoId: number): void {
-    this.todoService.deleteTodo(todoId).subscribe(() => {
-      this.todos.update((currentTodos) =>
-        currentTodos.filter((todo) => todo.id !== todoId)
-      );
-    });
+    this.todoService
+      .deleteTodo(todoId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.todos.update((currentTodos) =>
+          currentTodos.filter((todo) => todo.id !== todoId)
+        );
+      });
+  }
+  ngOnInit(): void {
+    this.loadTodos();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
