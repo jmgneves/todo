@@ -11,5 +11,5 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
     <div class="p-4"><router-outlet /></div>`,
 })
 export class AppComponent {
-  title = 'ava todo';
+  title = 'todo';
 }
