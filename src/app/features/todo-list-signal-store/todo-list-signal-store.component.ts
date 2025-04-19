@@ -113,4 +113,5 @@ import { todoStore } from '../../core/store/todo.store';
 })
 export class TodoListSignalStoreComponent {
   todoStore = inject(todoStore);
+  constructor() {}
 }
