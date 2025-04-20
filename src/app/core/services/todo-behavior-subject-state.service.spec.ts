@@ -21,6 +21,7 @@ describe('TodoBehaviorSubjectStateService', () => {
 
     // Mock the getTodos method to return an observable
     todoServiceMock.getTodos.and.returnValue(of(mockTodos));
+    todoServiceMock.deleteTodo.and.returnValue(of(undefined));
 
     TestBed.configureTestingModule({
       providers: [
@@ -48,9 +49,6 @@ describe('TodoBehaviorSubjectStateService', () => {
 
   describe('deleteTodo', () => {
     it('should delete a todo and update the todosSubject', () => {
-      // Mock the deleteTodo method to return an observable
-      todoServiceMock.deleteTodo.and.returnValue(of(undefined));
-
       // Initialize the todosSubject with mockTodos
       service['todosSubject'].next(mockTodos);
 
