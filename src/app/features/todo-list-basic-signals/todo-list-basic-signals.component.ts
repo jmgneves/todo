@@ -23,7 +23,7 @@ import { Subject, takeUntil } from 'rxjs';
   template: `
     <div class="p-4 min-h-screen mx-auto w-2/3">
       <h1 class="text-2xl font-bold mb-4 uppercase">
-        Todo List
+        3. Todo List
         <span class="text-sm italic"> - basic signals</span>
         <span class="text-sm italic"> ({{ filteredTodosCount() }})</span>
       </h1>

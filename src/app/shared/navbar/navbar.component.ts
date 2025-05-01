@@ -23,24 +23,23 @@ export class NavbarComponent {
   readonly routerService = inject(RouterService);
   items = [
     {
-      label: 'basic',
+      label: '1. basic',
       route: '/basic',
     },
     {
-      label: 'basic signals',
+      label: '2. behavior subject state service',
+      route: '/behavior-subject-state-service',
+    },
+    {
+      label: '3. basic signals',
       route: '/basic-signals',
     },
     {
-      label: 'behavior subject state service',
-      route: '/behavior-subject-state-service',
-    },
-
-    {
-      label: 'signals state service',
+      label: '4. signals state service',
       route: '/signals-state-service',
     },
     {
-      label: 'signal store',
+      label: '5. signal store',
       route: '/signal-store',
     },
   ];
